@@ -1,0 +1,145 @@
+---
+import AudienceToggle from '../components/AudienceToggle';
+import Carousel, { type Slide } from '../components/Carousel';
+import Coverage from '../components/Coverage';
+import HowToOrder from '../components/HowToOrder';
+import ProductCards from '../components/ProductCards';
+import Reveal from '../components/Reveal';
+import { FAQ } from '../data/faq';
+import { PRODUCTS } from '../data/products';
+import { DISTRICTS, waLink } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const slides: Slide[] = [
+  {
+    eyebrow: 'Malappuram · Serving all Kerala',
+    title: 'Food packaging boxes, wholesale & retail',
+    text: 'Broast, shawarma and cake boxes for restaurants, bakeries and cloud kitchens across Kerala.',
+    cta: { label: 'Get a quote on WhatsApp', href: waLink("Hi D PACKO, I'd like a quote for boxes.") },
+    accent: '#c2410c',
+    art: 'brand',
+  },
+  {
+    eyebrow: 'Broast boxes',
+    title: 'Keep broast crisp, hot and mess-free',
+    text: 'Vented, grease-resistant boxes from quarter to family size. Plain or printed with your logo.',
+    cta: { label: 'See broast boxes', href: '/products/broast-boxes' },
+    accent: '#d97706',
+    art: 'broast',
+  },
+  {
+    eyebrow: 'Shawarma boxes',
+    title: 'Roll and plate boxes that stack and carry well',
+    text: 'Food-safe shawarma boxes for single rolls, double rolls and plates.',
+    cta: { label: 'See shawarma boxes', href: '/products/shawarma-boxes' },
+    accent: '#ea580c',
+    art: 'shawarma',
+  },
+  {
+    eyebrow: 'Cake boxes',
+    title: 'Bakery cake boxes from ½ kg to 2 kg',
+    text: 'Clean white cake boxes, with or without a window, and matching cake boards.',
+    cta: { label: 'See cake boxes', href: '/products/cake-boxes' },
+    accent: '#be185d',
+    art: 'cake',
+  },
+];
+
+const orderSteps = [
+  { title: 'Choose your boxes', text: 'Pick broast, shawarma, cake or burger boxes and the size you need.' },
+  { title: 'Message us', text: 'Send product and quantity on WhatsApp or the enquiry form.' },
+  { title: 'Get your quote', text: 'We reply with rates, stock and delivery time for your district.' },
+  { title: 'Receive in Kerala', text: 'Pick up from Melmuri or get delivery to any of the 14 districts.' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to order food packaging boxes from D PACKO',
+    step: orderSteps.map((s, i) => ({ '@type': 'HowToStep', position: i + 1, name: s.title, text: s.text })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'D PACKO food packaging boxes',
+    itemListElement: PRODUCTS.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: new URL(`/products/${p.slug}`, Astro.site).href,
+      name: p.name,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+<BaseLayout
+  title="Broast, Shawarma & Cake Boxes Wholesale in Malappuram, Kerala | D PACKO"
+  description="D PACKO Packaging Solutions, Malappuram: broast boxes, shawarma boxes and cake boxes. Wholesale and retail, delivery across Kerala. Call +91 98469 94836."
+  jsonLd={jsonLd}
+>
+  <Carousel client:load slides={slides} />
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <Reveal client:load>
+      <h2 class="text-3xl font-extrabold">Food packaging boxes in Kerala</h2>
+      <p class="mt-2 max-w-2xl text-stone-600">
+        D PACKO Packaging Solutions supplies broast boxes, shawarma boxes and cake boxes from Melmuri, Malappuram.
+      </p>
+    </Reveal>
+    <div class="mt-8"><ProductCards client:load products={PRODUCTS} /></div>
+  </section>
+
+  <section class="bg-brand-50 py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal client:load><h2 class="mb-6 text-3xl font-extrabold">Buying in bulk or just a few packs?</h2></Reveal>
+      <AudienceToggle client:load />
+    </div>
+  </section>
+
+  <section class="bg-white py-16">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal client:load>
+        <h2 class="text-3xl font-extrabold">How to order</h2>
+        <p class="mt-2 mb-10 text-stone-600">Four simple steps from enquiry to delivery.</p>
+      </Reveal>
+      <HowToOrder client:load steps={orderSteps} />
+      <div class="mt-12 text-center">
+        <a
+          href={waLink("Hi D PACKO, I'd like to place an order.")}
+          class="inline-block rounded-full bg-brand-600 px-6 py-3 font-semibold text-white shadow-lg shadow-brand-600/30"
+        >
+          Start your order on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <Reveal client:load>
+      <h2 class="text-3xl font-extrabold">We deliver across Kerala</h2>
+      <p class="mt-2 mb-6 text-stone-600">From our base in Malappuram to all 14 districts.</p>
+    </Reveal>
+    <Coverage client:load districts={DISTRICTS} />
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
+    <h2 class="text-3xl font-extrabold">Frequently asked questions</h2>
+    <div class="mt-6 divide-y divide-stone-200 rounded-2xl border border-stone-200 bg-white">
+      {FAQ.map((f) => (
+        <details class="group p-5">
+          <summary class="cursor-pointer list-none font-semibold marker:hidden">{f.q}</summary>
+          <p class="mt-2 text-stone-600">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

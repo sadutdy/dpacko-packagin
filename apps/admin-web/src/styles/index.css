@@ -1,0 +1,296 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light theme (default). Semantic tokens named by role, per HIG "Color":
+   dynamic system colors adapt to appearance; light values match Apple's
+   system palettes (separator, label, secondary label, systemGray scale).
+   Contrast vs surface: label 16.8:1 · body 9.1:1 · secondary 5.1:1. */
+:root {
+  color-scheme: light;
+  --app-bg: #f5f5f7;
+  --app-surface: #ffffff;
+  --app-subtle: #f2f2f7;
+  --app-border: rgba(60, 60, 67, 0.18);
+  --app-border-soft: rgba(60, 60, 67, 0.1);
+  --app-text: #333336;
+  --app-strong: #1d1d1f;
+  --app-muted: #6e6e73;
+  --app-faint: #8e8e93;
+  --app-accent: #007aff;
+  --app-accent-hover: #0069d9;
+  --app-accent-active: #0058b9;
+  --app-danger: #ff3b30;
+  --app-danger-hover: #e0362c;
+  /* Inline error text: #d70015 on white = 5.4:1; dark #ff6961 on
+     #2c2c2e = 7.2:1 — both above the 4.5:1 floor for small text. */
+  --app-danger-text: #d70015;
+  --app-nav: #1d1d1f;
+  --app-nav-hover: #2c2c2e;
+  --app-nav-active: #48484b;
+  --app-nav-text: #d1d1d6;
+  --app-overlay: rgba(0, 0, 0, 0.45);
+  --app-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
+  --app-radius-control: 7px;
+  --app-radius-card: 12px;
+}
+
+/* Dark theme — applied via the `dark` class on <html> (see useTheme hook).
+   Apple semantic neutrals (base/elevated), not slate tints. */
+.dark {
+  color-scheme: dark;
+  --app-bg: #1c1c1e;
+  --app-surface: #2c2c2e;
+  --app-subtle: #3a3a3c;
+  --app-border: rgba(235, 235, 245, 0.16);
+  --app-border-soft: rgba(235, 235, 245, 0.08);
+  --app-text: #d1d1d6;
+  --app-strong: #f5f5f7;
+  --app-muted: #aeaeb2;
+  --app-faint: #8e8e93;
+  --app-accent: #0a84ff;
+  --app-accent-hover: #3395ff;
+  --app-accent-active: #2489f9;
+  --app-danger: #ff453a;
+  --app-danger-hover: #e0362c;
+  --app-danger-text: #ff6961;
+  --app-nav: #161618;
+  --app-nav-hover: #2a2a2c;
+  --app-nav-active: #333335;
+  --app-nav-text: #d1d1d6;
+  --app-overlay: rgba(0, 0, 0, 0.5);
+  --app-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: var(--app-bg);
+    color: var(--app-text);
+  }
+
+  /* Keyboard focus ring in the accent color, macOS focus-ring style. */
+  @media (prefers-reduced-motion: no-preference) {
+    :focus-visible {
+      outline: 2px solid var(--app-accent);
+      outline-offset: 2px;
+      transition: outline-offset 0.15s ease;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :focus-visible {
+      outline: 2px solid var(--app-accent);
+      outline-offset: 2px;
+    }
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--app-faint);
+    opacity: 1;
+  }
+}
+
+@layer components {
+  /* Prominent action (Done/Submit): accent bg, white bold label.
+     White on #007aff = 4.02:1 — passes the 3:1 rule for bold text
+     (accessibility.md › Vision). */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-1.5 px-4 font-medium text-white;
+    min-height: 32px;
+    font-size: 14px;
+    border-radius: var(--app-radius-control);
+    background: var(--app-accent);
+    transition: background-color 0.15s ease;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--app-accent-hover);
+  }
+  .btn-primary:active:not(:disabled) {
+    background: var(--app-accent-active);
+  }
+  .btn-primary:disabled {
+    opacity: 0.4;
+  }
+
+  /* Standard bordered control button (Cancel, Prev/Next). */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-1.5 px-4 font-medium text-app-text bg-app-surface;
+    min-height: 32px;
+    font-size: 14px;
+    border-radius: var(--app-radius-control);
+    border: 1px solid var(--app-border);
+    transition: background-color 0.15s ease;
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--app-subtle);
+  }
+
+  /* Destructive filled (Delete). */
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-1.5 px-4 font-medium text-white;
+    min-height: 32px;
+    font-size: 14px;
+    border-radius: var(--app-radius-control);
+    background: var(--app-danger);
+    transition: background-color 0.15s ease;
+  }
+  .btn-danger:hover:not(:disabled) {
+    background: var(--app-danger-hover);
+  }
+  .btn-danger:disabled {
+    opacity: 0.4;
+  }
+
+  /* Compact row/table action. Plain fill: color is reserved for status,
+     not for marking interactivity (color.md › Best practices). */
+  .btn-small {
+    @apply inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium text-app-text bg-app-surface;
+    border: 1px solid var(--app-border);
+    transition: background-color 0.15s ease;
+  }
+  .btn-small:hover:not(:disabled) {
+    background: var(--app-subtle);
+  }
+
+  /* Compact destructive row action, red only where it means destructive. */
+  .btn-small-danger {
+    @apply inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium bg-app-surface;
+    color: #d70015;
+    border: 1px solid var(--app-border);
+    transition: background-color 0.15s ease;
+  }
+  .btn-small-danger:hover:not(:disabled) {
+    background: rgba(255, 59, 48, 0.08);
+  }
+  .dark .btn-small-danger {
+    color: #ff6961;
+  }
+  .dark .btn-small-danger:hover:not(:disabled) {
+    background: rgba(255, 69, 58, 0.16);
+  }
+
+  /* Text field: control background, separator border, accent focus ring. */
+  .field {
+    /* @apply w-full rounded-md border border-app-border bg-app-surface px-3 text-sm text-app-text; */
+    max-width: 100%;
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    color: var(--app-text);
+    padding: 6px 12px;
+    min-height: 32px;
+    border-radius: var(--app-radius-control);
+    border: 1px solid var(--app-border);
+    background: var(--app-surface);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--app-accent);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.25);
+  }
+  .dark .field:focus {
+    box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
+  }
+
+  /* Elevated grouped-style card. */
+  .card {
+    background: var(--app-surface);
+    border-radius: var(--app-radius-card);
+    box-shadow: var(--app-shadow-card);
+  }
+
+  /* Section label: small tracked heading above grouped content. */
+  .section-label {
+    @apply text-xs font-medium uppercase tracking-wide text-app-muted;
+  }
+
+  /* Status pills: four semantic tones + neutral, Apple system colors.
+     The status text always accompanies the color (inclusive color). */
+  .pill {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium capitalize;
+  }
+  .pill-neutral {
+    @apply bg-app-subtle text-app-text;
+  }
+  .pill-attention {
+    background: #fff3d6;
+    color: #75551a;
+  }
+  .dark .pill-attention {
+    background: rgba(255, 214, 10, 0.18);
+    color: #ffd60a;
+  }
+  .pill-problem {
+    background: #ffe3e1;
+    color: #a8241c;
+  }
+  .dark .pill-problem {
+    background: rgba(255, 69, 58, 0.18);
+    color: #ff6961;
+  }
+  .pill-good {
+    background: #ddf3e5;
+    color: #1f6b3c;
+  }
+  .dark .pill-good {
+    background: rgba(48, 209, 88, 0.18);
+    color: #4bdc7f;
+  }
+  .pill-active {
+    background: #e0eeff;
+    color: #1a5eb8;
+  }
+  .dark .pill-active {
+    background: rgba(10, 132, 255, 0.2);
+    color: #64a8ff;
+  }
+}
+
+/* Quotation document. The sheet is paper: always white with dark ink, in
+   either app theme; only the chrome around it follows light/dark. */
+.quote-paper {
+  box-sizing: border-box;
+  color-scheme: light;
+  background: #ffffff;
+  color: #111111;
+  box-shadow: var(--app-shadow-card);
+}
+.quote-paper table tr {
+  break-inside: avoid;
+}
+.quote-paper thead {
+  display: table-header-group;
+}
+
+/* Print copy rendered into <body> by QuoteDocumentPage; hidden on screen. */
+.quote-print-portal {
+  display: none;
+}
+
+@media print {
+  body > *:not(.quote-print-portal) {
+    display: none !important;
+  }
+  html,
+  body {
+    background: #ffffff !important;
+    color-scheme: light;
+  }
+  .quote-print-portal {
+    display: block;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .quote-paper--print {
+    box-shadow: none;
+    padding: 0;
+  }
+  /* Each extra copy (Duplicate, Triplicate) starts on a fresh sheet. */
+  .quote-paper--print + .quote-paper--print {
+    break-before: page;
+  }
+}

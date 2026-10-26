@@ -1,0 +1,164 @@
+---
+import ProductCards from '../../components/ProductCards';
+import Reveal from '../../components/Reveal';
+import { PRODUCT_FAQ } from '../../data/productFaq';
+import { PRODUCTS } from '../../data/products';
+import { waLink } from '../../data/site';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const useCases = [
+  ['🍗', 'Broast & fried chicken shops', 'Vented, grease-resistant broast boxes keep the coating crisp.', '/products/broast-boxes'],
+  ['🌯', 'Shawarma & roll counters', 'Roll and plate boxes that stack well on delivery runs.', '/products/shawarma-boxes'],
+  ['🎂', 'Bakeries & home bakers', 'Cake boxes from ½ kg to 2 kg, with or without a window.', '/products/cake-boxes'],
+  ['🍔', 'Burger & snack outlets', 'Compact printed burger boxes in assorted colours.', '/products/burger-boxes'],
+] as const;
+
+const insights = [
+  ['Match the box to the food', 'Hot, oily food needs a vented, grease-resistant box. Soft or cold food like cakes needs a rigid, flat-bottomed box.'],
+  ['Size to the portion', 'A box that is too large lets food slide around; too small crushes it. Use the size guide below, and ask us to suggest a size for your menu.'],
+  ['Vented vs sealed', 'Vents let steam escape so fried food stays crisp. Sealed boxes keep food warm longer — pick based on what you serve.'],
+  ['Plain vs printed', 'Plain boxes are cheapest and ready to ship. Printed boxes carry your brand to every customer and pay back over larger runs.'],
+  ['Order for the season', 'Festival weeks and weekends spike demand for cake and broast boxes. Order a few days earlier so stock is not an issue.'],
+  ['Store them dry', 'Keep boxes off the floor and away from damp walls. Humidity softens the board and makes boxes harder to fold.'],
+] as const;
+
+const steps = [
+  ['1', 'Tell us what you need', 'Product, size and quantity — on WhatsApp or the enquiry form.'],
+  ['2', 'Get a quote', 'We reply with rates, stock and delivery time for your district.'],
+  ['3', 'Receive your boxes', 'Pick up from Melmuri or get delivery anywhere in Kerala.'],
+] as const;
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: PRODUCT_FAQ.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<BaseLayout
+  title="Food Packaging Boxes in Kerala | Broast, Shawarma, Cake & Burger Boxes | D PACKO"
+  description="Buy broast boxes, shawarma boxes, cake boxes and burger boxes in Malappuram, Kerala. Size guide, buying tips and wholesale or retail rates from D PACKO."
+  jsonLd={[faqLd]}
+>
+  <section class="bg-gradient-to-b from-brand-50 to-paper">
+    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <Reveal client:load>
+        <h1 class="text-4xl font-extrabold">Food packaging boxes</h1>
+        <p class="mt-3 max-w-2xl text-lg text-stone-600">
+          Ready-made and printed boxes for restaurants, bakeries and cloud kitchens across Kerala.
+          Sizes and pack quantities below are indicative — message us for current stock.
+        </p>
+      </Reveal>
+      <div class="mt-8"><ProductCards client:load products={PRODUCTS} /></div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <Reveal client:load><h2 class="text-3xl font-extrabold">Which box is right for your business?</h2></Reveal>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {useCases.map(([icon, title, text, href], i) => (
+        <Reveal client:load delay={i * 0.08}>
+          <a href={href} class="block h-full rounded-2xl border border-stone-200 bg-white p-5 transition hover:-translate-y-1 hover:shadow-md">
+            <div class="text-3xl" aria-hidden="true">{icon}</div>
+            <h3 class="mt-3 font-bold">{title}</h3>
+            <p class="mt-1 text-sm text-stone-600">{text}</p>
+          </a>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-brand-50 py-14">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal client:load>
+        <h2 class="text-3xl font-extrabold">Size &amp; pack guide</h2>
+        <p class="mt-2 text-stone-600">Indicative sizes — confirm current stock with us before ordering.</p>
+      </Reveal>
+      <div class="mt-6 overflow-x-auto rounded-2xl border border-stone-200 bg-white">
+        <table class="w-full min-w-[40rem] text-left text-sm">
+          <thead class="bg-stone-100 text-xs tracking-wide text-stone-600 uppercase">
+            <tr>
+              <th class="p-4">Product</th>
+              <th class="p-4">Best for</th>
+              <th class="p-4">Sizes</th>
+              <th class="p-4">Pack sizes</th>
+              <th class="p-4">Minimum order</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-200">
+            {PRODUCTS.map((p) => (
+              <tr>
+                <th scope="row" class="p-4 font-bold"><a href={`/products/${p.slug}`} class="text-brand-700 hover:underline">{p.name}</a></th>
+                <td class="p-4">{p.bestFor}</td>
+                <td class="p-4">{p.variants.map((v) => v.name).join(', ')}</td>
+                <td class="p-4">{p.packSizes.join(' · ')}</td>
+                <td class="p-4">{p.moq}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <Reveal client:load><h2 class="text-3xl font-extrabold">Packaging buying guide</h2></Reveal>
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {insights.map(([title, text], i) => (
+        <Reveal client:load delay={(i % 3) * 0.08}>
+          <div class="h-full rounded-2xl border-l-4 border-brand-600 bg-white p-5 shadow-sm">
+            <h3 class="font-bold">{title}</h3>
+            <p class="mt-1 text-stone-600">{text}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-stone-900 py-14 text-white">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal client:load><h2 class="text-3xl font-extrabold">How to order</h2></Reveal>
+      <ol class="mt-8 grid gap-6 md:grid-cols-3">
+        {steps.map(([n, title, text], i) => (
+          <Reveal client:load delay={i * 0.1}>
+            <li class="list-none">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-600 font-bold">{n}</span>
+              <h3 class="mt-3 text-lg font-bold">{title}</h3>
+              <p class="mt-1 text-stone-300">{text}</p>
+            </li>
+          </Reveal>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+    <h2 class="text-3xl font-extrabold">Product questions</h2>
+    <div class="mt-6 divide-y divide-stone-200 rounded-2xl border border-stone-200 bg-white">
+      {PRODUCT_FAQ.map((f) => (
+        <details class="p-5">
+          <summary class="cursor-pointer list-none font-semibold marker:hidden">{f.q}</summary>
+          <p class="mt-2 text-stone-600">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
+    <Reveal client:load>
+      <div class="rounded-3xl bg-gradient-to-br from-brand-500 to-brand-700 p-8 text-center text-white sm:p-12">
+        <h2 class="text-3xl font-extrabold">Not sure which box to pick?</h2>
+        <p class="mx-auto mt-2 max-w-xl">Tell us what you sell and how many you need — we'll recommend a size and send rates.</p>
+        <a
+          href={waLink('Hi D PACKO, please help me choose the right box.')}
+          class="mt-6 inline-block rounded-full bg-white px-6 py-3 font-semibold text-brand-700"
+        >
+          Ask on WhatsApp
+        </a>
+      </div>
+    </Reveal>
+  </section>
+</BaseLayout>

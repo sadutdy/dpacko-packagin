@@ -1,0 +1,195 @@
+---
+import Reveal from '../components/Reveal';
+import { PRODUCTS } from '../data/products';
+import { SITE, waLink } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const audiences = [
+  ['🍗', 'Broast & fast-food shops', 'Steady weekly volumes of broast, burger and shawarma boxes.'],
+  ['🎂', 'Bakeries & cake studios', 'Cake boxes in the sizes your menu needs, restocked on a schedule.'],
+  ['☁️', 'Cloud kitchens', 'Delivery-ready boxes that stack and survive the ride.'],
+  ['🏪', 'Distributors & retailers', 'Buy in bulk and resell to local food outlets.'],
+] as const;
+
+const perks = [
+  ['Volume pricing', 'Better per-box rates as your order size grows.'],
+  ['Custom printing', 'Your logo on the box — plate cost spread across the run.'],
+  ['Credit terms', 'Available for regular buyers on approval.'],
+  ['Kerala-wide delivery', 'Dispatched from Malappuram to every district.'],
+  ['Repeat-order ease', 'Re-order the same size and design with one WhatsApp message.'],
+  ['Mixed orders', 'Combine broast, shawarma, cake and burger boxes in one order.'],
+] as const;
+
+const tiers = [
+  ['Starter', 'Around 500–1,000 pcs per product', ['Ready-made stock', 'Plain boxes', 'Delivery quoted per district']],
+  ['Growth', 'Around 1,000–5,000 pcs per product', ['Volume rate', 'Printing available', 'Priority dispatch']],
+  ['Bulk', '5,000+ pcs per product', ['Best rate', 'Custom print & size on request', 'Credit terms on approval']],
+] as const;
+
+const printSteps = [
+  ['Send your logo', 'Share your logo (PNG, PDF or AI) and the box size on WhatsApp.'],
+  ['Approve the design', 'We prepare a layout for you to approve before anything is printed.'],
+  ['Production', 'Printed boxes are made to order for your agreed quantity.'],
+  ['Delivery', 'Boxes are dispatched to you anywhere in Kerala.'],
+] as const;
+
+const faqs = [
+  ['What is the minimum wholesale order?', 'Wholesale rates start from about 500–2,000 pieces depending on the box type. Message us with your product and quantity and we will confirm.'],
+  ['Do you offer credit?', 'Credit terms may be available for regular buyers after approval. Ask us when you place your first order.'],
+  ['Can I mix different boxes in one order?', 'Yes. You can combine broast, shawarma, cake and burger boxes in a single order.'],
+  ['How long does a printed order take?', 'Lead time depends on quantity and design. We confirm the delivery date with your quote.'],
+  ['Do you issue GST invoices?', `Yes. D PACKO is GST registered (GSTIN ${SITE.gstin}), and we provide a GST invoice with every order.`],
+] as const;
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([q, a]) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+<BaseLayout
+  title="Wholesale Food Packaging Boxes in Kerala | Broast, Cake & Shawarma Boxes | D PACKO"
+  description="Wholesale broast, shawarma, cake and burger boxes for restaurants, bakeries, cloud kitchens and distributors across Kerala. Volume pricing, custom printing, delivery from Malappuram."
+  jsonLd={[faqLd]}
+>
+  <section class="bg-gradient-to-b from-brand-50 to-paper">
+    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+      <Reveal client:load>
+        <p class="text-sm font-semibold tracking-widest text-brand-700 uppercase">For businesses</p>
+        <h1 class="mt-2 text-4xl font-extrabold">Wholesale food packaging boxes</h1>
+        <p class="mt-3 max-w-2xl text-lg text-stone-600">
+          Reliable supply of broast, shawarma, cake and burger boxes for restaurants, bakeries and
+          cloud kitchens across Kerala — with volume pricing, printing and delivery from Malappuram.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href={waLink('Hi D PACKO, I want wholesale rates.')} class="rounded-full bg-brand-600 px-6 py-3 font-semibold text-white shadow-lg shadow-brand-600/30">Request wholesale rates</a>
+          <a href="/contact" class="rounded-full border border-stone-300 bg-white px-6 py-3 font-semibold">Send an enquiry</a>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <Reveal client:load><h2 class="text-3xl font-extrabold">Who we supply</h2></Reveal>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {audiences.map(([icon, title, text], i) => (
+        <Reveal client:load delay={i * 0.08}>
+          <div class="h-full rounded-2xl border border-stone-200 bg-white p-5">
+            <div class="text-3xl" aria-hidden="true">{icon}</div>
+            <h3 class="mt-3 font-bold">{title}</h3>
+            <p class="mt-1 text-sm text-stone-600">{text}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-brand-50 py-14">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal client:load><h2 class="text-3xl font-extrabold">Why buy wholesale from D PACKO</h2></Reveal>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {perks.map(([t, d], i) => (
+          <Reveal client:load delay={(i % 3) * 0.08}>
+            <div class="h-full rounded-2xl border-l-4 border-brand-600 bg-white p-5 shadow-sm">
+              <h3 class="font-bold">{t}</h3>
+              <p class="mt-1 text-stone-600">{d}</p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <Reveal client:load>
+      <h2 class="text-3xl font-extrabold">Volume tiers</h2>
+      <p class="mt-2 text-stone-600">Indicative quantity bands — final rates are quoted per order.</p>
+    </Reveal>
+    <div class="mt-8 grid gap-5 md:grid-cols-3">
+      {tiers.map(([name, range, points], i) => (
+        <Reveal client:load delay={i * 0.1}>
+          <div class={`h-full rounded-2xl border p-6 ${i === 1 ? 'border-brand-600 bg-white shadow-lg' : 'border-stone-200 bg-white'}`}>
+            {i === 1 && <p class="mb-2 inline-block rounded-full bg-brand-600 px-3 py-0.5 text-xs font-semibold text-white">Most popular</p>}
+            <h3 class="text-xl font-extrabold">{name}</h3>
+            <p class="mt-1 text-sm text-stone-600">{range}</p>
+            <ul class="mt-4 space-y-2">
+              {points.map((p) => <li class="flex gap-2"><span class="text-brand-600">✓</span>{p}</li>)}
+            </ul>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-white py-14">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal client:load>
+        <h2 class="text-3xl font-extrabold">Wholesale ranges</h2>
+        <p class="mt-2 text-stone-600">Minimums are indicative — confirm current stock before ordering.</p>
+      </Reveal>
+      <div class="mt-6 overflow-x-auto rounded-2xl border border-stone-200">
+        <table class="w-full min-w-[34rem] text-left text-sm">
+          <thead class="bg-stone-100 text-xs tracking-wide text-stone-600 uppercase">
+            <tr><th class="p-4">Product</th><th class="p-4">Best for</th><th class="p-4">Pack sizes</th><th class="p-4">Wholesale from</th></tr>
+          </thead>
+          <tbody class="divide-y divide-stone-200">
+            {PRODUCTS.map((p) => (
+              <tr>
+                <th scope="row" class="p-4"><a href={`/products/${p.slug}`} class="text-brand-700 hover:underline">{p.name}</a></th>
+                <td class="p-4">{p.bestFor}</td>
+                <td class="p-4">{p.packSizes.join(' · ')}</td>
+                <td class="p-4">{p.moq.split('wholesale from ')[1] ?? 'On request'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-stone-900 py-14 text-white">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal client:load>
+        <h2 class="text-3xl font-extrabold">Custom printed boxes</h2>
+        <p class="mt-2 max-w-2xl text-stone-300">Put your brand on every order. A one-time plate/setup cost is spread across the run, so larger runs cost less per box.</p>
+      </Reveal>
+      <ol class="mt-8 grid gap-6 md:grid-cols-4">
+        {printSteps.map(([t, d], i) => (
+          <Reveal client:load delay={i * 0.1}>
+            <li class="list-none">
+              <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-600 font-bold">{i + 1}</span>
+              <h3 class="mt-3 font-bold">{t}</h3>
+              <p class="mt-1 text-sm text-stone-300">{d}</p>
+            </li>
+          </Reveal>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+    <h2 class="text-3xl font-extrabold">Wholesale questions</h2>
+    <div class="mt-6 divide-y divide-stone-200 rounded-2xl border border-stone-200 bg-white">
+      {faqs.map(([q, a]) => (
+        <details class="p-5">
+          <summary class="cursor-pointer list-none font-semibold marker:hidden">{q}</summary>
+          <p class="mt-2 text-stone-600">{a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
+    <Reveal client:load>
+      <div class="rounded-3xl bg-gradient-to-br from-brand-500 to-brand-700 p-8 text-center text-white sm:p-12">
+        <h2 class="text-3xl font-extrabold">Get a wholesale quote today</h2>
+        <p class="mx-auto mt-2 max-w-xl">Tell us the boxes, sizes and quantity — we'll reply with rates and delivery time.</p>
+        <a href={waLink('Hi D PACKO, I want a wholesale quote.')} class="mt-6 inline-block rounded-full bg-white px-6 py-3 font-semibold text-brand-700">Quote on WhatsApp</a>
+      </div>
+    </Reveal>
+  </section>
+</BaseLayout>

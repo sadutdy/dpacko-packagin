@@ -1,0 +1,7 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "ameen-dev", "runtimeExecutable": "pnpm", "runtimeArgs": ["dev"], "port": 5175 },
+    { "name": "website", "runtimeExecutable": "pnpm", "runtimeArgs": ["--filter", "@ameen/website", "dev"], "port": 5176 }
+  ]
+}

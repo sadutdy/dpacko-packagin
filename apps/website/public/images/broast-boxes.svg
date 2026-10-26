@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 700" width="800" height="700">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#ea580c"/></linearGradient>
+    <linearGradient id="ped" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c2410c"/><stop offset=".5" stop-color="#fb923c"/><stop offset="1" stop-color="#c2410c"/></linearGradient>
+  </defs>
+  <rect width="800" height="700" fill="url(#bg)"/>
+  <circle cx="400" cy="300" r="250" fill="#fff" fill-opacity=".12"/>
+  <!-- pedestal -->
+  <path d="M130 600v50q0 45 270 45t270-45v-50Z" fill="#9a3412"/>
+  <ellipse cx="400" cy="600" rx="270" ry="55" fill="url(#ped)"/>
+  <ellipse cx="400" cy="592" rx="230" ry="42" fill="#fed7aa" fill-opacity=".35"/>
+  <!-- box -->
+  <polygon points="200,330 400,420 400,580 200,490" fill="#b91c1c"/>
+  <polygon points="400,420 600,330 600,490 400,580" fill="#dc2626"/>
+  <polygon points="400,240 600,330 400,420 200,330" fill="#fff7ed"/>
+  <polygon points="400,240 600,330 400,420 200,330" fill="none" stroke="#fdba74" stroke-width="3"/>
+  <!-- lid vents -->
+  <g fill="#fdba74">
+    <ellipse cx="330" cy="318" rx="26" ry="8" transform="rotate(24 330 318)"/>
+    <ellipse cx="400" cy="349" rx="26" ry="8" transform="rotate(24 400 349)"/>
+    <ellipse cx="470" cy="318" rx="26" ry="8" transform="rotate(-24 470 318)"/>
+    <ellipse cx="400" cy="287" rx="26" ry="8" transform="rotate(-24 400 287)"/>
+  </g>
+  <!-- left face art -->
+  <g transform="matrix(1 .45 0 1 200 330)">
+    <text x="100" y="62" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="40" font-weight="800" fill="#fff" letter-spacing="2">BROAST</text>
+    <text x="100" y="92" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#fde68a" letter-spacing="6">CHICKEN BOX</text>
+    <g transform="translate(70 100)">
+      <ellipse cx="14" cy="22" rx="20" ry="16" fill="#f59e0b"/>
+      <ellipse cx="10" cy="17" rx="8" ry="5" fill="#fde68a" fill-opacity=".6"/>
+      <path d="M30 32l22 18" stroke="#fff7ed" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="56" cy="52" r="5" fill="#fff7ed"/><circle cx="50" cy="58" r="5" fill="#fff7ed"/>
+    </g>
+  </g>
+  <!-- right face art -->
+  <g transform="matrix(1 -.45 0 1 400 420)">
+    <text x="100" y="72" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="800" fill="#fff7ed"><tspan fill="#fde68a">D</tspan>.PACKO</text>
+    <text x="100" y="98" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#fecaca" letter-spacing="3.5">PACKAGING SOLUTIONS</text>
+  </g>
+  <!-- steam -->
+  <g fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="6" stroke-linecap="round">
+    <path d="M330 200q-16-24 0-44t0-42"/><path d="M400 180q-16-24 0-44t0-42"/><path d="M470 200q-16-24 0-44t0-42"/>
+  </g>
+</svg>

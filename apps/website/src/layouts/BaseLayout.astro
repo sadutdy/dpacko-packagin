@@ -1,0 +1,121 @@
+---
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+import MobileNav from '../components/MobileNav';
+import WhatsAppFab from '../components/WhatsAppFab';
+import { SITE, waLink } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  jsonLd?: object[];
+}
+const { title, description, jsonLd: pageJsonLd = [] } = Astro.props;
+const ogImage = new URL('/og-image.png', Astro.site);
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const nav = [
+  ['/', 'Home'],
+  ['/products', 'Products'],
+  ['/wholesale', 'Wholesale'],
+  ['/retail', 'Retail'],
+  ['/contact', 'Contact'],
+] as const;
+const businessLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: SITE.name,
+  telephone: SITE.phoneTel,
+  url: Astro.site,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '29/229, Melmuri, Calicut Road',
+    addressLocality: 'Malappuram',
+    addressRegion: 'Kerala',
+    postalCode: '676517',
+    addressCountry: 'IN',
+  },
+  areaServed: 'Kerala',
+  taxID: SITE.gstin,
+  image: ogImage.href,
+  logo: new URL('/favicon.svg', Astro.site).href,
+  priceRange: '₹',
+  sameAs: [SITE.instagram],
+};
+const websiteLd = { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.name, url: Astro.site };
+const graph = [businessLd, websiteLd, ...pageJsonLd];
+---
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#c2410c" />
+    <meta name="geo.region" content="IN-KL" />
+    <meta name="geo.placename" content="Malappuram" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Malayalam:wght@400;600&display=swap"
+    />
+    {graph.map((g) => <script type="application/ld+json" set:html={JSON.stringify(g)} />)}
+  </head>
+  <body class="min-h-screen antialiased">
+    <header class="sticky top-0 z-40 border-b border-stone-200 bg-paper/90 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+        <a href="/" aria-label="D.PACKO home"><Logo /></a>
+        <nav class="hidden gap-6 text-sm font-semibold md:flex" aria-label="Main">
+          {nav.map(([href, label]) => (
+            <a
+              href={href}
+              class:list={['hover:text-brand-700', (href === '/' ? Astro.url.pathname === '/' : Astro.url.pathname.startsWith(href)) && 'text-brand-700']}
+              aria-current={(href === '/' ? Astro.url.pathname === '/' : Astro.url.pathname.startsWith(href)) ? 'page' : undefined}
+            >{label}</a>
+          ))}
+        </nav>
+        <MobileNav
+          client:load
+          links={nav.map(([h, l]) => [h, l])}
+          current={Astro.url.pathname}
+          phoneTel={SITE.phoneTel}
+          phoneDisplay={SITE.phoneDisplay}
+          waHref={waLink("Hi D PACKO, I'd like to know more about your boxes.")}
+        />
+      </div>
+    </header>
+    <main><slot /></main>
+    <footer class="mt-24 bg-stone-900 text-stone-300">
+      <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3">
+        <div>
+          <p class="text-lg font-bold text-white">{SITE.name}</p>
+          <p class="mt-2 text-sm">Food packaging boxes — wholesale &amp; retail across Kerala.</p>
+        </div>
+        <address class="text-sm not-italic">
+          {SITE.address.map((l) => <div>{l}</div>)}
+          <div class="mt-2">GSTIN: {SITE.gstin}</div>
+        </address>
+        <div class="text-sm">
+          <a href={`tel:${SITE.phoneTel}`} class="block font-semibold text-white">{SITE.phoneDisplay}</a>
+          <a href={SITE.instagram} class="mt-1 block hover:text-white" rel="noopener">Instagram @dpack_o</a>
+        </div>
+      </div>
+    </footer>
+    <WhatsAppFab client:load href={waLink("Hi D PACKO, I'd like to know more about your boxes.")} />
+  </body>
+</html>

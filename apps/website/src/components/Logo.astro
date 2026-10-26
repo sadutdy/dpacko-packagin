@@ -1,0 +1,39 @@
+---
+// D.PACKO wordmark, redrawn as paths to match the brand profile on Instagram (@dpack_o):
+// orange "D." + white "PACKO" in a wide geometric face, tagline below, on navy.
+interface Props {
+  class?: string;
+}
+const { class: className = 'h-11 w-auto' } = Astro.props;
+---
+<svg
+  class={className}
+  viewBox="0 0 264 90"
+  role="img"
+  aria-label="D.PACKO Packaging Solutions"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <rect width="264" height="90" rx="12" fill="#232a5c"></rect>
+  <g transform="translate(16 14)" fill="none" stroke-width="7" stroke-linejoin="miter">
+    <g stroke="#f0552b">
+      <path d="M3.5 3.5H16Q30.5 3.5 30.5 20Q30.5 36.5 16 36.5H3.5Z"></path>
+      <rect x="38" y="33" width="7" height="7" fill="#f0552b" stroke="none"></rect>
+    </g>
+    <g stroke="#fff">
+      <path transform="translate(52 0)" d="M3.5 40V3.5H20Q29 3.5 29 12Q29 20.5 20 20.5H3.5"></path>
+      <path transform="translate(90 0)" d="M2 40L15 3.5L28 40"></path>
+      <path transform="translate(126 0)" d="M30 3.5H12Q3.5 3.5 3.5 12V28Q3.5 36.5 12 36.5H30"></path>
+      <path transform="translate(164 0)" d="M3.5 0V40M28 3.5L9 20.5L28 36.5"></path>
+      <rect transform="translate(200 0)" x="3.5" y="3.5" width="25" height="33" rx="11"></rect>
+    </g>
+  </g>
+  <text
+    x="132"
+    y="77"
+    text-anchor="middle"
+    font-family="Inter, Helvetica, Arial, sans-serif"
+    font-size="9"
+    font-weight="600"
+    letter-spacing="3.6"
+    fill="#e2e8f0">PACKAGING SOLUTIONS</text>
+</svg>

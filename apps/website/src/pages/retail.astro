@@ -1,0 +1,168 @@
+---
+import Reveal from '../components/Reveal';
+import { PRODUCTS } from '../data/products';
+import { SITE, waLink } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const who = [
+  ['🏠', 'Home bakers', 'A few cake boxes for weekend orders.'],
+  ['🛵', 'New food startups', 'Test your menu without buying thousands of boxes.'],
+  ['🎉', 'Events & parties', 'Boxes for a one-off function or celebration.'],
+  ['🏪', 'Small shops', 'Top up stock between bulk orders.'],
+] as const;
+
+const ways = [
+  ['Pick up from Melmuri', `Collect from ${SITE.address[0]}, ${SITE.address[1]}. Message first so we have your order ready.`],
+  ['Delivery in Kerala', 'We can deliver small orders across Kerala. Delivery charges depend on your district and weight.'],
+  ['Order on WhatsApp', 'Send the product, size and pack you want. We reply with price and availability.'],
+] as const;
+
+const tips = [
+  ['Start with one pack', 'Buy the smallest pack first to check the size with your product.'],
+  ['Check the size', 'Match the box size to your portion — see the size guide on each product page.'],
+  ['Ask about stock', 'Ready-made sizes ship fastest. Ask which sizes are in stock today.'],
+  ['Moving to bulk?', 'Once you order regularly, switch to wholesale for a better per-box rate.'],
+] as const;
+
+const faqs = [
+  ['What is the smallest quantity I can buy?', 'Retail packs start from about 25 pieces for cake boxes and 50–100 pieces for other boxes. Ask us for current pack sizes.'],
+  ['Can I pick up my order?', `Yes — collect from ${SITE.address.join(', ')}. Please message first so your order is ready.`],
+  ['Do you deliver small orders?', 'Yes, across Kerala. Delivery charges depend on your district and the size of the order.'],
+  ['Can I get a printed box in small quantity?', 'Printing is usually for larger runs because of the setup cost. Ask us and we will tell you what is possible.'],
+  ['How do I pay?', 'Confirm the payment options with us on WhatsApp when you place your order.'],
+] as const;
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([q, a]) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+<BaseLayout
+  title="Buy Food Boxes in Small Quantities | Cake, Broast & Shawarma Boxes | D PACKO Malappuram"
+  description="Buy cake boxes, broast boxes, shawarma boxes and burger boxes in small packs. Pick up from Melmuri, Malappuram or get delivery across Kerala."
+  jsonLd={[faqLd]}
+>
+  <section class="bg-gradient-to-b from-brand-50 to-paper">
+    <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+      <Reveal client:load>
+        <p class="text-sm font-semibold tracking-widest text-brand-700 uppercase">Small orders welcome</p>
+        <h1 class="mt-2 text-4xl font-extrabold">Retail — buy boxes in small packs</h1>
+        <p class="mt-3 max-w-2xl text-lg text-stone-600">
+          No need to order thousands. Buy cake, broast, shawarma and burger boxes in packs from 25
+          pieces — pick up in Malappuram or get them delivered across Kerala.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href={waLink('Hi D PACKO, I want to buy a small pack of boxes.')} class="rounded-full bg-brand-600 px-6 py-3 font-semibold text-white shadow-lg shadow-brand-600/30">Order on WhatsApp</a>
+          <a href="/products" class="rounded-full border border-stone-300 bg-white px-6 py-3 font-semibold">Browse products</a>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <Reveal client:load><h2 class="text-3xl font-extrabold">Who buys retail</h2></Reveal>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {who.map(([icon, title, text], i) => (
+        <Reveal client:load delay={i * 0.08}>
+          <div class="h-full rounded-2xl border border-stone-200 bg-white p-5">
+            <div class="text-3xl" aria-hidden="true">{icon}</div>
+            <h3 class="mt-3 font-bold">{title}</h3>
+            <p class="mt-1 text-sm text-stone-600">{text}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-brand-50 py-14">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <Reveal client:load>
+        <h2 class="text-3xl font-extrabold">Retail packs</h2>
+        <p class="mt-2 text-stone-600">Pack sizes are indicative — message us for today's stock and price.</p>
+      </Reveal>
+      <div class="mt-8 grid gap-5 sm:grid-cols-2">
+        {PRODUCTS.map((p, i) => (
+          <Reveal client:load delay={(i % 2) * 0.1}>
+            <div class="flex h-full gap-4 rounded-2xl border border-stone-200 bg-white p-4">
+              {p.image && <img src={p.image.src} alt={p.image.alt} width={p.image.width} height={p.image.height} loading="lazy" class="h-28 w-28 shrink-0 rounded-xl object-cover object-bottom" />}
+              <div>
+                <h3 class="font-bold"><a href={`/products/${p.slug}`} class="hover:text-brand-700">{p.name}</a></h3>
+                <p class="mt-1 text-sm text-stone-600">{p.bestFor}</p>
+                <p class="mt-2 text-sm"><span class="font-semibold">Packs:</span> {p.packSizes.join(' · ')}</p>
+                <a href={waLink(`Hi D PACKO, I want a retail pack of ${p.name}.`)} class="mt-2 inline-block text-sm font-semibold text-brand-700">Ask price →</a>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <Reveal client:load><h2 class="text-3xl font-extrabold">Three ways to get your boxes</h2></Reveal>
+    <div class="mt-8 grid gap-5 md:grid-cols-3">
+      {ways.map(([t, d], i) => (
+        <Reveal client:load delay={i * 0.1}>
+          <div class="h-full rounded-2xl border-l-4 border-brand-600 bg-white p-6 shadow-sm">
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-600 font-bold text-white">{i + 1}</span>
+            <h3 class="mt-3 text-lg font-bold">{t}</h3>
+            <p class="mt-1 text-stone-600">{d}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-stone-900 py-14 text-white">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 md:grid-cols-2">
+      <div>
+        <Reveal client:load>
+          <h2 class="text-3xl font-extrabold">Visit us in Melmuri</h2>
+          <address class="mt-4 text-lg not-italic text-stone-200">
+            <p class="font-semibold text-white">{SITE.name}</p>
+            {SITE.address.map((l) => <p>{l}</p>)}
+            <a href={`tel:${SITE.phoneTel}`} class="mt-3 block font-semibold text-brand-400">{SITE.phoneDisplay}</a>
+          </address>
+          <p class="mt-3 text-sm text-stone-400">Please call or message before visiting so your order is ready.</p>
+        </Reveal>
+      </div>
+      <div>
+        <Reveal client:load delay={0.1}>
+          <h2 class="text-2xl font-extrabold">Tips for first-time buyers</h2>
+          <ul class="mt-4 space-y-3">
+            {tips.map(([t, d]) => (
+              <li class="flex gap-3"><span class="text-brand-400">✓</span><span><span class="font-semibold">{t}.</span> <span class="text-stone-300">{d}</span></span></li>
+            ))}
+          </ul>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+    <h2 class="text-3xl font-extrabold">Retail questions</h2>
+    <div class="mt-6 divide-y divide-stone-200 rounded-2xl border border-stone-200 bg-white">
+      {faqs.map(([q, a]) => (
+        <details class="p-5">
+          <summary class="cursor-pointer list-none font-semibold marker:hidden">{q}</summary>
+          <p class="mt-2 text-stone-600">{a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
+    <Reveal client:load>
+      <div class="rounded-3xl bg-gradient-to-br from-brand-500 to-brand-700 p-8 text-center text-white sm:p-12">
+        <h2 class="text-3xl font-extrabold">Need a bigger quantity?</h2>
+        <p class="mx-auto mt-2 max-w-xl">Ordering regularly? Wholesale gives a better per-box rate, printing and credit terms.</p>
+        <a href="/wholesale" class="mt-6 inline-block rounded-full bg-white px-6 py-3 font-semibold text-brand-700">See wholesale</a>
+      </div>
+    </Reveal>
+  </section>
+</BaseLayout>
