@@ -31,7 +31,7 @@ import { UiPrefsProvider } from './settings/UiPrefsContext.js';
 
 export function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <AuthProvider>
         <UiPrefsProvider>
           <Routes>

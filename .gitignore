@@ -12,3 +12,7 @@ coverage/
 
 .astro/
 dump.rdb
+
+api/index.js
+dist-vercel/
+.vercel/

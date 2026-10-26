@@ -39,6 +39,7 @@ export function createApp(): express.Express {
   app.use(globalLimiter);
 
   app.use('/', healthRouter);
+  app.use('/api', healthRouter);
   app.use('/api/v1', buildV1Router());
 
   app.use(notFound);
