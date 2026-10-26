@@ -14,6 +14,8 @@ let app: ReturnType<typeof createApp> | undefined;
 let ready: Promise<void> | undefined;
 
 async function init(): Promise<void> {
+  // The config default is localhost, which hangs until the function times out on Vercel.
+  if (!process.env.MONGO_URI) throw new Error('MONGO_URI is not set');
   await connectDatabase();
   await connectRedis().catch((error) => logger.error({ err: error }, 'Redis unavailable'));
   app = createApp();

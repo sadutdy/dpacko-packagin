@@ -18,7 +18,11 @@ export async function connectDatabase(uri: string = config.MONGO_URI): Promise<t
     logger.warn('Mongo disconnected');
   });
 
-  await mongoose.connect(uri, { dbName: config.MONGO_DB_NAME, autoIndex: !config.isProduction });
+  await mongoose.connect(uri, {
+    dbName: config.MONGO_DB_NAME,
+    autoIndex: !config.isProduction,
+    serverSelectionTimeoutMS: 8000,
+  });
   connected = true;
   logger.info({ uri: uri.replace(/\/\/.*@/, '//<redacted>@') }, 'Mongo connected');
   return mongoose;
