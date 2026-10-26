@@ -1,0 +1,1 @@
+import{L as e,t}from"./react.D-gvQmbd.js";import{t as n}from"./use-reduced-motion.BJsbKcOx.js";var r=e();function i({children:e,delay:i=0,className:a}){let o=n();return(0,r.jsx)(t.div,{className:a,initial:!o&&{opacity:0,y:28},whileInView:{opacity:1,y:0},viewport:{once:!0,margin:`-60px`},transition:{type:`spring`,stiffness:80,damping:16,delay:i},children:e})}export{i as default};

@@ -9,9 +9,9 @@ One Vercel project serves everything from a single domain:
 | `/api/*` | `apps/api` | Express app bundled into one serverless function (`api/index.js`) |
 
 `vercel.json` + `scripts/vercel-build.mjs` do the wiring. The build runs both front-end
-builds, copies them into `dist-vercel/`, and bundles `apps/api/src/serverless.ts` with esbuild
-(`argon2` stays external because it is a native module; it is a root dependency so Vercel
-traces it into the function).
+builds and writes a Vercel Build Output (`.vercel/output`): static files, a `config.json` with
+the routes, and one function (`functions/api/index.func`) containing the esbuild bundle of
+`apps/api/src/serverless.ts` plus the native `argon2` module copied beside it.
 
 ## Set up
 
